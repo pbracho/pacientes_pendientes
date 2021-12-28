@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const response = require('../../network/response');
 const controller = require('./controller');
+const jwt = require('jsonwebtoken');
 //const config = require('../../config');
 
 router.post('/', (req, res) => {
@@ -17,15 +18,28 @@ router.post('/', (req, res) => {
         })
 });
 
-router.get('/', (req, res) => {
-    const filterByUsername = req.query.username || null;
-    controller.getUser(filterByUsername)
-        .then((userList) => {
-            response.success(req, res, userList, 200);
-        })
-        .catch(e => {
-            response.error(req, res, 'Unexpected error', 500, e);
-        });
+router.get('/', response.verifyToken, (req, res) => {
+
+    jwt.verify(req.token, 'secretkey', (err, authData) =>{
+        if (err) {
+            response.error(req, res, 'Forbidden access', 403, err);
+        } else {
+            const filterByUsername = req.query.username || null;
+            controller.getUser(filterByUsername)
+                .then((userList) => {
+                    const result = {
+                        authData,
+                        userList
+                    };
+
+                    response.success(req, res, result, 200);
+                })
+                .catch(e => {
+                    response.error(req, res, 'Unexpected error', 500, e);
+                });
+        }
+    })
+
 });
 
 router.patch('/:id', (req, res) => {

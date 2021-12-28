@@ -2,8 +2,10 @@ const router = require('express').Router();
 const response = require('../../network/response');
 const controller = require('./controller');
 
-router.post('/', (req, res) => {
+router.post('/', response.verifyToken, (req, res) => {
     const { username, password } = req.body;
+
+    //response.verifyToken(req,res);
 
     controller.auth(username, password)
         .then(data => {

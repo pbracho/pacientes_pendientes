@@ -1,4 +1,5 @@
 const store = require('./store');
+const jwt = require('jsonwebtoken');
 
 function authUser(username, password) {
     return new Promise((resolve, reject) => {
@@ -9,7 +10,13 @@ function authUser(username, password) {
 
         store.authUser(username, password)
             .then(user => {
-                resolve(user)
+                jwt.sign({user}, 'secretkey', (err, token) =>{
+                    const result = {
+                        user,
+                        token
+                    }
+                    resolve(result)
+                })
             })
             .catch(err => {
                 reject(err)

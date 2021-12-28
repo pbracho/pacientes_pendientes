@@ -28,3 +28,17 @@ exports.error = (req, res, message, status, details) => {
         body: ''
     });
 };
+
+function verifyToken(req, res, next){
+    const bearerHeader = req.headers['authorization'];
+
+    if (typeof bearerHeader !== 'undefined') {
+        const bearerToken = bearerHeader.split(" ")[1];
+        req.token = bearerToken;
+        next();
+    } else {
+        throw new Error('Token is not defined');
+    }
+}
+
+module.exports.verifyToken = verifyToken;
