@@ -3,7 +3,7 @@ const Model = require('./model');
 function addUser(user) {
     const myUser = new Model(user);
 
-    const newUser = myUser.save();
+    var newUser = myUser.save();
 
     // Quito la info de la password para no devolverla
     newUser.password = '';
@@ -37,7 +37,7 @@ async function updateUser(id, dataToPatch) {
     }
 
     // Guardo la información y la cargo en newUser
-    const newUser = await userToPatch.save();
+    var newUser = await userToPatch.save();
 
     // elimino la password de la respuesta (info sensible)
 
@@ -53,6 +53,5 @@ module.exports = {
     add: addUser,
     get: getUser,
     update: updateUser,
-    remove: removeUser,
-    authenticate: authUser
+    remove: removeUser
 }

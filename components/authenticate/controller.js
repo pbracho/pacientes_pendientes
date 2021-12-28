@@ -8,8 +8,8 @@ function authUser(username, password) {
         }
 
         store.authUser(username, password)
-            .then(() => {
-                resolve()
+            .then(user => {
+                resolve(user)
             })
             .catch(err => {
                 reject(err)
@@ -17,6 +17,4 @@ function authUser(username, password) {
     })
 }
 
-module.exports = {
-    auth: authUser,
-}
+module.exports.auth = authUser
