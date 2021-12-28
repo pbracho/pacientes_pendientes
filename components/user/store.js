@@ -1,5 +1,16 @@
+/**
+ * Módulo store del componente user
+ * @module /componets/user/store
+ */
+
+/** Carga el módulo model del componente */
 const Model = require('./model');
 
+/**
+ * Agrega un nuevo documento de usuario a la colección users
+ * @param {json} user - Objeto json con la información del usuario, formateada segun el modelo. 
+ * @returns json conteniento los datos del usuario
+ */
 function addUser(user) {
     const myUser = new Model(user);
 
@@ -10,6 +21,11 @@ function addUser(user) {
     return newUser;
 }
 
+/**
+ * Devuelve un usuario o todos los usuarios de la colección.
+ * @param {string} usernameFilter - Nombre de usuario a buscar en la colección (opcional). Si no se uministra se devuelven todos.
+ * @returns json con el usuario o todos los usuarios de la colección
+ */
 function getUser(usernameFilter) {
     let filter = {};
     if (usernameFilter !== null) {
@@ -19,6 +35,12 @@ function getUser(usernameFilter) {
     return Model.find(filter, '_id name username regdate');
 }
 
+/**
+ * Actualiza la información del usuario con el id suministrado
+ * @param {string} id - Id del usuario
+ * @param {json} dataToPatch - Datos del usuario a ser actualizados
+ * @returns json del usuario con los datos actualizados
+ */
 async function updateUser(id, dataToPatch) {
     // Primero ubico el usuario a actualizar
     const userToPatch = await Model.findOne({ _id: id });
@@ -45,6 +67,11 @@ async function updateUser(id, dataToPatch) {
     return newUser;
 }
 
+/**
+ * Elimina de la colección el usuario con el id suministrado
+ * @param {string} id - Id del usuario a eliminar
+ * @returns Cantidad de registros eliminados (deletedCount)
+ */
 function removeUser(id) {
     return Model.deleteOne({ _id: id });
 }

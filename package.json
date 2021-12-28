@@ -4,6 +4,7 @@
   "description": "Una API sencilla para gestion de pacientes pendientes de intervención quirúrgica",
   "main": "app.js",
   "scripts": {
+    "runApp": "nodemon app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

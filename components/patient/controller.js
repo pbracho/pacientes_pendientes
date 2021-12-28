@@ -1,5 +1,16 @@
+/**
+ * Módulo controller del componente patient
+ * @module /components/patient/controller
+ */
+
+/** Carga el modulo store del componente */
 const store = require('./store');
 
+/**
+ * Añade un nuevo paciente a la base de datos
+ * @param {json} patientData - Objeto json conteniendo la información del paciente a anexar a la base de datos
+ * @returns json con la información del paciente anexado
+ */
 function addPatient(patientData) {
     return new Promise((resolve, reject) => {
         if (!patientData) {
@@ -7,18 +18,30 @@ function addPatient(patientData) {
             return false;
         }
 
-        store.add(patientData);
+        let newPatient = store.add(patientData);
 
-        resolve(patientData);
+        resolve(newPatient);
     })
 }
 
+/**
+ * Obtiene un paciente o listado de pacientes segun se pase o no una identificación para filtrar
+ * @param {string} patientFilter - Identificación del paciente
+ * @returns json conteniendo un paciente o el listado de pacientes
+ */
 function getPatient(patientFilter) {
     return new Promise((resolve, reject) => {
         resolve(store.get(patientFilter));
     })
 }
 
+
+/**
+ * Actualiza u paciente segun el Id suministrado
+ * @param {string} id - Id del paciente
+ * @param {json} dataToPatch - Objeto json conteniendo la información del paciente a actualizar
+ * @returns json conteniendo al paciente con los datos actualizados
+ */
 function updatePatient(id, dataToPatch) {
     return new Promise(async (resolve, reject) => {
         if (!id || !dataToPatch) {
@@ -30,6 +53,11 @@ function updatePatient(id, dataToPatch) {
     })
 }
 
+/**
+ * Elimina un paciente segun el Id suministrado
+ * @param {string} id -Id del paciente
+ * @returns Número de registros eliminados (deletedCount)
+ */
 function deletePatient(id) {
     return new Promise((resolve, reject) => {
         if (!id) {

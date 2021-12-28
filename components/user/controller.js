@@ -1,3 +1,9 @@
+/**
+ * Módulo controller del componente user
+ * @module /components/user/controller
+ */
+
+/** Carga el modulo store del componente */
 const store = require('./store');
 
 /**
@@ -29,7 +35,7 @@ function addUser(name, username, password) {
 
 /**
  * Obtiene un usuario o listado de usuarios segun se pase o no un nombre de usuario para filtrar
- * @param {String} usernameFilter nombre de usuario que servirá para filtrar los usuarios. Si no se pasa el parametro se devuelven todos los usuarios
+ * @param {string} usernameFilter - Nombre de usuario que servirá para filtrar los usuarios. Si no se pasa el parametro se devuelven todos los usuarios
  * @returns Objeto JSON conteniendo un usuario o un listado de usuarios
  */
 function getUser(usernameFilter) {
@@ -39,8 +45,8 @@ function getUser(usernameFilter) {
 }
 
 /**
- * Actualiza un usuario
- * @param {String} id - Id del usuario
+ * Actualiza un usuario, según el Id suministrado
+ * @param {string} id - Id del usuario
  * @param {JSON} dataToPatch - Objeto JSON conteniendo la información del usuario recibida en el body del Request
  * @returns Objeto JSON conteniendo el usuario con los valores actualizados
  */
@@ -56,9 +62,9 @@ function updateUser(id, dataToPatch) {
 }
 
 /**
- * Elimina el usuario con el id suministrado
- * @param {String} id - Id del usuario a eliminar
- * @returns MongoDB Result
+ * Elimina el usuario con el Id suministrado
+ * @param {string} id - Id del usuario a eliminar
+ * @returns Número de registros eliminados (deletedCount)
  */
 function deleteUser(id) {
     return new Promise((resolve, reject) => {
@@ -71,6 +77,7 @@ function deleteUser(id) {
         resolve(result);
     })
 }
+
 module.exports = {
     addUser,
     getUser,

@@ -1,10 +1,20 @@
+/**
+ * Módulo db
+ * @module db
+ */
+
+/** Importamos el módulo mongoose */
 const db = require('mongoose');
 
-// Le decimos a mongoose que utilice las promises de NodeJS por defecto
+/** Le decimos a mongoose que utilice las promises de NodeJS por defecto */
 db.Promise = global.Promise;
 
-// Creamos la función de conección
+/**
+ * Función para realizar la conexxión a la base de datos de mongo
+ * @param {string} uri - Cadena de conexión a la base de datos
+ */
 async function connect(uri) {
+    // opciones para conectarse a la base de datos
     const mongoConnOptions = {
         useNewUrlParser: true,
         useUnifiedTopology: true

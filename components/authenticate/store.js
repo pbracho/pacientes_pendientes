@@ -1,7 +1,7 @@
 const Model = require('../user/model');
 
 function authUser(username, password) {
-    return new Promise((resolve, reject) =>{
+    return new Promise((resolve, reject) => {
         Model.findOne({ username: username }, '_id name username password', (err, user) => {
             if (err) {
                 reject('User authentication error')

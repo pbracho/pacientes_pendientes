@@ -1,3 +1,11 @@
+/**
+ * Módulo response
+ * @module /network/response
+ */
+
+const { response } = require("express");
+
+/** Objeto con mensajes a ser utilizados por defecto en caso de no suministrarse */
 const statusMessages = {
     '200': 'Ok',
     '201': 'Created',
@@ -7,6 +15,7 @@ const statusMessages = {
     '500': 'Internal Error'
 }
 
+/** Envia el response en caso de que todo este correcto */
 exports.success = (req, res, message, status) => {
     let statusCode = !status ? 200 : status;
     let statusMessage = !message ? statusMessages[statusCode] : message;
@@ -17,6 +26,7 @@ exports.success = (req, res, message, status) => {
     });
 };
 
+/** Envía el response en caso de error */
 exports.error = (req, res, message, status, details) => {
     let statusCode = !status ? 500 : status;
     let statusMessage = !message ? statusMessages[statusCode] : message;
@@ -29,7 +39,8 @@ exports.error = (req, res, message, status, details) => {
     });
 };
 
-function verifyToken(req, res, next){
+/** Middleware que verifica que el header traiga un token JWT */
+function verifyToken(req, res, next) {
     const bearerHeader = req.headers['authorization'];
 
     if (typeof bearerHeader !== 'undefined') {
@@ -37,7 +48,7 @@ function verifyToken(req, res, next){
         req.token = bearerToken;
         next();
     } else {
-        throw new Error('Token is not defined');
+        next('Token is not defined');
     }
 }
 
