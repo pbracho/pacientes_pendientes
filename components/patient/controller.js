@@ -14,7 +14,7 @@ const store = require('./store');
 function addPatient(patientData) {
     return new Promise((resolve, reject) => {
         if (!patientData) {
-            reject('[patientController] Datos incorrectos o inexistentes');
+            reject('[patientController] Incorrect or missing data');
             return false;
         }
 
@@ -45,7 +45,7 @@ function getPatient(patientFilter) {
 function updatePatient(id, dataToPatch) {
     return new Promise(async (resolve, reject) => {
         if (!id || !dataToPatch) {
-            reject('[patientController] Invalid or Incomplete data');
+            reject('[patientController] Invalid or missing data');
             return false;
         }
         const result = await store.update(id, dataToPatch);

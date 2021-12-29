@@ -31,6 +31,7 @@ const MySchema = new Schema({
     phone: String,
     email: String,
     regdate: Date,
+    patient_file: String,
     user: {
         type: Schema.ObjectId,
         ref: 'User'

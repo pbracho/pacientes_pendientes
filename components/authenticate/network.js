@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
                 response.success(req, res, data, 200);
             })
             .catch(e => {
-                response.error(req, res, 'Authenticating error', 500, e);
+                response.error(req, res, 'Authentication error', 500, e);
             });
 
     }

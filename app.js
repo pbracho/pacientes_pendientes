@@ -3,7 +3,7 @@
  * @module app
  */
 
-/** Carga e inicializa  el modulo dotenv si se usan archivos .env, y en entorno de producción */
+/** Carga e inicializa  el modulo dotenv si se usan archivos .env, y no esta en entorno de producción */
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
@@ -30,7 +30,7 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(config.publicRoute, express.static('./public'));
+app.use(config.publicRoute, express.static(config.publicDir));
 
 /** Pasa la app al módulo router para que gestione las rutas y peticiones */
 router(app);

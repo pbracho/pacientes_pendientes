@@ -16,7 +16,7 @@ const store = require('./store');
 function addUser(name, username, password) {
     return new Promise((resolve, reject) => {
         if (!name || !username || !password) {
-            reject('[userController] Datos incorrectos o inexistentes');
+            reject('[userController] Incorrect or missing data');
             return false;
         }
 

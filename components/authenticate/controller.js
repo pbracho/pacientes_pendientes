@@ -6,7 +6,7 @@ const secretKey = require('../../config').secretKey;
 function authUser(username, password) {
     return new Promise((resolve, reject) => {
         if (!username || !password) {
-            reject('[userController] Usuario o password incorrectos');
+            reject('[userController] Incorrect user or password');
             return false;
         }
 

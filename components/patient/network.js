@@ -15,17 +15,34 @@ const controller = require('./controller');
 /** carga el módulo jsonwebtoken para efectuar autorización basada en token */
 const jwt = require('jsonwebtoken');
 
-/** carga la secretKey a utilizar por jwt del módulo config */
-const secretKey = require('../../config').secretKey;
+/** carga los valores comunes del archivo config */
+const config = require('../../config');
+
+/** Carga el modulo Multer, para manejar la carga de archivos */
+const multer = require('multer');
+
+// Inicializamos el middleware para manejar la carga de archivos
+const upload = multer({
+    dest: 'public' + config.filesRoute + '/'
+});
 
 /** Petición post para añadir un doc de paciente a la colección patients de la base de datos */
-router.post('/', response.verifyToken, (req, res) => {
-    jwt.verify(req.token, secretKey, (err, tokenData) => {
+router.post('/', response.verifyToken, upload.single('file'), (req, res) => {
+    jwt.verify(req.token, config.secretKey, (err, tokenData) => {
         if (err) {
             response.error(req, res, 'Forbidden access', 403, err)
         } else {
             let result = { tokenData };
+
             const body = req.body;
+
+            //let patientFile = null;
+            //if (req.file) {
+            //    patientfile = `${config.host}:${config.port}${config.publicRoute}${config.filesRoute}/${req.file.filename}`;
+            //}
+
+            let patientFile = req.file ? `${config.host}:${config.port}${config.publicRoute}${config.filesRoute}/${req.file.filename}` : null;
+
             const patientData = {
                 name: body.name,
                 identification: body.identification,
@@ -39,6 +56,7 @@ router.post('/', response.verifyToken, (req, res) => {
                 status: body.status || null,
                 phone: body.phone || null,
                 email: body.email || null,
+                patient_file: patientFile,
                 regdate: new Date(),
                 user: body.user || tokenData.user._id
             }
@@ -50,7 +68,7 @@ router.post('/', response.verifyToken, (req, res) => {
                 })
                 .catch(e => {
                     result.error = e
-                    response.error(req, res, 'Datos no válidos o faltantes', 500, result);
+                    response.error(req, res, 'Invalid or missing data', 500, result);
                 })
         }
     })
@@ -59,7 +77,7 @@ router.post('/', response.verifyToken, (req, res) => {
 
 /** Petición get para obtener o un paciente específico por su identificacion o un listado de pacientes */
 router.get('/', response.verifyToken, (req, res) => {
-    jwt.verify(req.token, secretKey, (err, tokenData) => {
+    jwt.verify(req.token, config.secretKey, (err, tokenData) => {
         if (err) {
             response.error(req, res, 'Forbidden access', 403, err)
         } else {
@@ -80,7 +98,7 @@ router.get('/', response.verifyToken, (req, res) => {
 
 /** Petición patch para actualizar la información del paciente especificado en el Id */
 router.patch('/:id', response.verifyToken, (req, res) => {
-    jwt.verify(req.token, secretKey, (err, tokenData) => {
+    jwt.verify(req.token, config.secretKey, (err, tokenData) => {
         if (err) {
             response.error(req, res, 'Forbidden access', 403, err);
         } else {
@@ -117,7 +135,7 @@ router.patch('/:id', response.verifyToken, (req, res) => {
 
 /** Petición delete para eliminar un paciente de la base de datos especificando su id */
 router.delete('/:id', response.verifyToken, (req, res) => {
-    jwt.verify(req.token, secretKey, (err, tokenData) => {
+    jwt.verify(req.token, config.secretKey, (err, tokenData) => {
         if (err) {
             response.error(req, res, 'Forbidden access', 403, err);
         } else {

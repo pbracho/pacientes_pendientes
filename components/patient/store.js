@@ -66,6 +66,7 @@ async function updatePatient(id, dataToPatch) {
     patientToPatch.status = (patientToPatch.status === dataToPatch.status || dataToPatch.status === null) ? patientToPatch.status : dataToPatch.status;
     patientToPatch.phone = (patientToPatch.phone === dataToPatch.phone || dataToPatch.phone === null) ? patientToPatch.phone : dataToPatch.phone;
     patientToPatch.email = (patientToPatch.email === dataToPatch.email || dataToPatch.email === null) ? patientToPatch.email : dataToPatch.email;
+    patientToPatch.patient_file = (patientToPatch.patient_file === dataToPatch.patient_file || dataToPatch.patient_file === null) ? patientToPatch.patient_file : dataToPatch.patient_file;
 
     // Guardo la información y la cargo en newUser
     const updatedPatient = await patientToPatch.save();
