@@ -40,7 +40,7 @@ router.post('/', response.verifyToken, upload.single('file'), (req, res) => {
             //if (req.file) {
             //    patientfile = `${config.host}:${config.port}${config.publicRoute}${config.filesRoute}/${req.file.filename}`;
             //}
-
+            // Me gusta mas de esta manera
             let patientFile = req.file ? `${config.host}:${config.port}${config.publicRoute}${config.filesRoute}/${req.file.filename}` : null;
 
             const patientData = {
